@@ -180,6 +180,7 @@ def cli():
       todos add <task>       Add todo with description <task>
       server                 Show status of Habitica service
       home                   Open tasks page in default browser
+      item [type]            Show item types, or specific items of given type
 
     For `habits up|down`, `dailies done|undo`, and `todos done`, you can pass
     one or more <task-id> parameters, using either comma-separated lists or
@@ -220,6 +221,20 @@ def cli():
         home_url = '%s%s' % (auth['url'], HABITICA_TASKS_PAGE)
         print('Opening %s' % home_url)
         open_new_tab(home_url)
+
+    # GET item lists
+    elif args['<command>'] == 'item':
+        user = hbt.user()
+        items = user.get('items', [])
+        if len(args['<args>']):
+            name = args['<args>'][0]
+            for item in items.get(name, []):
+                count = items[name][item]
+                if count:
+                    print('%d %s' % (count, item))
+        else:
+            for item in items:
+                print('%s' % (item))
 
     # GET user
     elif args['<command>'] == 'status':
