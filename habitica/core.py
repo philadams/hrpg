@@ -17,7 +17,7 @@ import json
 import logging
 import netrc
 import os.path
-from time import sleep
+from time import sleep, time
 from webbrowser import open_new_tab
 
 from docopt import docopt
@@ -180,6 +180,8 @@ def cli():
       todos add <task>       Add todo with description <task>
       server                 Show status of Habitica service
       home                   Open tasks page in default browser
+      item [type]            Show item types, or specific items of given type
+      feed                   Feed all food to matching pets
 
     For `habits up|down`, `dailies done|undo`, and `todos done`, you can pass
     one or more <task-id> parameters, using either comma-separated lists or
@@ -220,6 +222,91 @@ def cli():
         home_url = '%s%s' % (auth['url'], HABITICA_TASKS_PAGE)
         print('Opening %s' % home_url)
         open_new_tab(home_url)
+
+    # GET item lists
+    elif args['<command>'] == 'item':
+        user = hbt.user()
+        items = user.get('items', [])
+        if len(args['<args>']):
+            name = args['<args>'][0]
+            for item in items.get(name, []):
+                count = items[name][item]
+                if count:
+                    print('%d %s' % (count, item))
+        else:
+            for item in items:
+                print('%s' % (item))
+
+    elif args['<command>'] == 'feed':
+        feeding = {
+                    'Saddle':           'ignore',
+                    'Meat':             'Base',
+                    'CottonCandyBlue':  'CottonCandyBlue',
+                    'CottonCandyPink':  'CottonCandyPink',
+                    'Honey':            'Golden',
+                    'Milk':             'White',
+                    'Strawberry':       'Red',
+                    'Chocolate':        'Shade',
+                    'Fish':             'Skeleton',
+                    'Potatoe':          'Desert',
+                    'RottenMeat':       'Zombie',
+                  }
+        user = hbt.user()
+        refreshed = True
+
+        while refreshed:
+            refreshed = False
+            items = user.get('items', [])
+            foods = items['food']
+            pets = items['pets']
+            mounts = items['mounts']
+            for food in foods:
+                # Handle seasonal foods that encode matching pet in name.
+                if '_' in food:
+                    best = food.split('_',1)[1]
+                    if not food in feeding:
+                        feeding[food] = best
+
+                # Skip foods we don't have any of.
+                if items['food'][food] <= 0:
+                    continue
+
+                # Find best pet to feed to.
+                suffix = feeding.get(food, None)
+                if suffix == None:
+                    print("Unknown food: %s" % (food))
+                    continue
+                if suffix == 'ignore':
+                    continue
+
+                mouth = None
+                best = 0
+                for pet in pets:
+                    fed = items['pets'][pet]
+
+                    # Unhatched pet.
+                    if fed <= 0:
+                        #print("Unhatched: %s" % (pet))
+                        continue
+                    # Unfeedable pet.
+                    if items['mounts'].get(pet, 0) == 1 and fed == 5:
+                        #print("Has mount: %s" % (pet))
+                        continue
+                    # Not best food match.
+                    if not pet.endswith('-%s' % (suffix)):
+                        #print("Not a match for %s: %s" % (food, pet))
+                        continue
+
+                    if fed > best:
+                        best = fed
+                        mouth = pet
+
+                if mouth:
+                    print("Feeding %s to %s" % (food, mouth))
+                    batch = api.Habitica(auth=auth, resource="user", aspect="batch-update?_v=137&data=%d" % (int(time() * 1000)))
+                    user = batch(_method='post', op="feed", params={"pet":mouth, "food":food})
+                    refreshed = True
+                    break
 
     # GET user
     elif args['<command>'] == 'status':
