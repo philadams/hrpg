@@ -276,7 +276,7 @@ def cli():
             quest_type = cache.get(SECTION_CACHE_QUEST, 'quest_type')
             if quest_type == 'collect':
                 qp_tmp = party['quest']['progress']['collect']
-                quest_progress = qp_tmp.values()[0]['count']
+                quest_progress = qp_tmp.values()[0]
             else:
                 quest_progress = party['quest']['progress']['hp']
 

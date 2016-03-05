@@ -2,3 +2,5 @@ venv-*
 fabfile.py
 *.pyc
 habitica.egg-info
+build
+dist
