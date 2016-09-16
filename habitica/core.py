@@ -15,7 +15,6 @@ TODO:philadams get logger named, like requests!
 from bisect import bisect
 import json
 import logging
-import netrc
 import os.path
 from time import sleep
 from webbrowser import open_new_tab
