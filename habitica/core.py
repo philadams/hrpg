@@ -89,7 +89,7 @@ def load_cache(configfile):
     defaults = {'quest_key': '',
                 'quest_s': 'Not currently on a quest'}
 
-    cache = configparser.SafeConfigParser(defaults)
+    cache = configparser.ConfigParser(defaults)
     cache.read(configfile)
 
     if not cache.has_section(SECTION_CACHE_QUEST):
@@ -106,7 +106,7 @@ def update_quest_cache(configfile, **kwargs):
     for key, val in kwargs.items():
         cache.set(SECTION_CACHE_QUEST, key, val)
 
-    with open(configfile, 'wb') as f:
+    with open(configfile, 'w') as f:
         cache.write(f)
 
     cache.read(configfile)
