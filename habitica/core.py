@@ -172,7 +172,7 @@ def print_task_list(tasks):
             for c, check in enumerate(task['checklist']):
                 completed = 'x' if check['completed'] else ' '
                 print('    [%s] %s' % (completed,
-                                       check['text'].encode('utf8')))
+                                       check['text']))
 
 
 def qualitative_task_score_from_value(value):
