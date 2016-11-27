@@ -162,7 +162,7 @@ def print_task_list(tasks):
         completed = 'x' if task['completed'] else ' '
         task_line = '[%s] %s %s' % (completed,
                                     i + 1,
-                                    task['text'].encode('utf8'))
+                                    task['text'])
         checklist_available = cl_item_count(task) > 0
         if checklist_available:
             task_line += ' (%s/%s)' % (str(cl_done_count(task)),
