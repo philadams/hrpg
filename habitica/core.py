@@ -16,6 +16,7 @@ from bisect import bisect
 import json
 import logging
 import os.path
+import sys
 from time import sleep
 from webbrowser import open_new_tab
 
@@ -25,9 +26,9 @@ from . import api
 
 from pprint import pprint
 
-try:
+if sys.version_info < (3, ):
     import ConfigParser as configparser
-except:
+else:
     import configparser
 
 

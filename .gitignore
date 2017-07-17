@@ -3,3 +3,4 @@ fabfile.py
 *.pyc
 habitica.egg-info
 *.swp
+.mypy*
