@@ -162,8 +162,11 @@ def cl_item_count(task):
         return 0
 
 
-def print_task_list(tasks):
+def print_task_list(tasks, onlyDueDailies = None):
     for i, task in enumerate(tasks):
+        if onlyDueDailies and task['type'] == 'daily':
+            if not task['isDue'] or task['completed']:
+                continue
         completed = 'x' if task['completed'] else ' '
         task_line = '[%s] %s %s' % (completed,
                                     i + 1,
@@ -178,7 +181,6 @@ def print_task_list(tasks):
                 completed = 'x' if check['completed'] else ' '
                 print('    [%s] %s' % (completed,
                                        check['text']))
-
 
 def qualitative_task_score_from_value(value):
     # task value/score info: http://habitica.wikia.com/wiki/Task_Value
@@ -224,6 +226,7 @@ def cli():
       habits up <task-id>     Up (+) habit <task-id>
       habits down <task-id>   Down (-) habit <task-id>
       dailies                 List daily tasks
+      dailies due             List only due daily tasks
       dailies done            Mark daily <task-id> complete
       dailies undo            Mark daily <task-id> incomplete
       todos                   List todo tasks
@@ -421,7 +424,10 @@ def cli():
                       % dailies[tid]['text'].encode('utf8'))
                 dailies[tid]['completed'] = False
                 sleep(HABITICA_REQUEST_WAIT_TIME)
-        print_task_list(dailies)
+        if 'due' in args['<args>']:
+            print_task_list(dailies, onlyDueDailies=True)
+        else:
+            print_task_list(dailies)
 
     # GET tasks:todo
     elif args['<command>'] == 'todos':
