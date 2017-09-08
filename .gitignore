@@ -3,3 +3,7 @@ fabfile.py
 *.pyc
 habitica.egg-info
 *.swp
+
+# PyCharm
+.idea
+
