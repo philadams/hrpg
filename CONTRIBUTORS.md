@@ -5,6 +5,7 @@ Thank you! In alphabetical order. [Full list at
 - [cool4zbl](https://github.com/cool4zbl)
 - [eeveeta](https://github.com/eeveeta)
 - [emacsen](https://github.com/emacsen)
+- [johnnyasantoss](https://github.com/johnnyasantoss)
 - [josephholsten](https://github.com/josephholsten)
 - [kurohai](https://github.com/kurohai)
 - [Lertsenem](https://github.com/Lertsenem)
