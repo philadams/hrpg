@@ -398,7 +398,7 @@ def cli():
                 sleep(HABITICA_REQUEST_WAIT_TIME)
         for i, task in enumerate(habits):
             score = qualitative_task_score_from_value(task['value'])
-            print('[%s] %s %s' % (score, i + 1, task['text'].encode('utf8')))
+            print('[%s] %s %s' % (score, i + 1, task['text']))
 
     # GET/PUT tasks:daily
     elif args['<command>'] == 'dailies':
@@ -409,7 +409,7 @@ def cli():
                 hbt.user.tasks(_id=dailies[tid]['id'],
                                _direction='up', _method='post')
                 print('marked daily \'%s\' completed'
-                      % dailies[tid]['text'].encode('utf8'))
+                      % dailies[tid]['text'])
                 dailies[tid]['completed'] = True
                 sleep(HABITICA_REQUEST_WAIT_TIME)
         elif 'undo' in args['<args>']:
@@ -418,7 +418,7 @@ def cli():
                 hbt.user.tasks(_id=dailies[tid]['id'],
                                _method='put', completed=False)
                 print('marked daily \'%s\' incomplete'
-                      % dailies[tid]['text'].encode('utf8'))
+                      % dailies[tid]['text'])
                 dailies[tid]['completed'] = False
                 sleep(HABITICA_REQUEST_WAIT_TIME)
         print_task_list(dailies)
