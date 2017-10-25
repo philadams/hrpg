@@ -146,7 +146,7 @@ Via `habitica --help`:
       --version         Show version
       --difficulty=<d>  (easy | medium | hard) [default: easy]
       --verbose         Show some logging information
-      --debug           Some all logging information
+      --debug           Show all logging information
       -c --checklists   Toggle displaying checklists on or off
 
     The habitica commands are:
