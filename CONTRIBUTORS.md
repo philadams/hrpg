@@ -8,5 +8,6 @@ Thank you! In alphabetical order. [Full list at
 - [josephholsten](https://github.com/josephholsten)
 - [kurohai](https://github.com/kurohai)
 - [Lertsenem](https://github.com/Lertsenem)
+- [radeklat](https://github.com/radeklat)
 - [mohsend](https://github.com/mohsend)
 - [robertpateii](https://github.com/robertpateii)

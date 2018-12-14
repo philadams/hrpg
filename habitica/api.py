@@ -15,6 +15,7 @@ import requests
 
 API_URI_BASE = 'api/v3'
 API_CONTENT_TYPE = 'application/json'
+SUCCESS_CODES = frozenset([requests.codes.ok, requests.codes.created])
 
 
 class Habitica(object):
@@ -78,7 +79,7 @@ class Habitica(object):
                                             params=kwargs)
 
         # print(res.url)  # debug...
-        if res.status_code == requests.codes.ok:
+        if res.status_code in SUCCESS_CODES:
             return res.json()["data"]
         else:
             res.raise_for_status()
